@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 
 import org.bukkit.plugin.Plugin;
 
+import com.bergerkiller.bukkit.common.events.RegionChangeSource;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.WorldEditException;
@@ -95,7 +96,7 @@ final class WorldEditHandlerV2 implements RegionChangeTrackerHandler {
 
             public ChangeTrackerAdapter(Extent extent, RegionChangeTrackerHandlerOps ops, org.bukkit.World world) {
                 super(extent);
-                this._debouncer = new RegionChangeTrackerHandlerChunkDebouncer(world, ops);
+                this._debouncer = new RegionChangeTrackerHandlerChunkDebouncer(RegionChangeSource.WORLDEDIT, world, ops);
             }
 
             @Override

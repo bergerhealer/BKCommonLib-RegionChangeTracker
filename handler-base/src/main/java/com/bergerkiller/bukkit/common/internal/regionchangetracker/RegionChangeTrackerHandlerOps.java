@@ -3,6 +3,8 @@ package com.bergerkiller.bukkit.common.internal.regionchangetracker;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.bergerkiller.bukkit.common.events.RegionChangeSource;
+
 import java.util.Collection;
 
 import org.bukkit.World;
@@ -34,8 +36,9 @@ public interface RegionChangeTrackerHandlerOps {
     /**
      * Notifies changes have occurred inside one or more chunks
      *
+     * @param source Source of the changes
      * @param world World where the changes occurred
      * @param chunks Chunk coordinates that changed
      */
-    void notifyChanges(World world, Collection<RegionBlockChangeChunkCoordinate> chunks);
+    void notifyChanges(RegionChangeSource source, World world, Collection<RegionBlockChangeChunkCoordinate> chunks);
 }

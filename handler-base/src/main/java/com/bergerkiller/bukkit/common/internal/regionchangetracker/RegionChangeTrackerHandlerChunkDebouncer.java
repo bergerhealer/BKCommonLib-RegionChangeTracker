@@ -7,6 +7,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
+import com.bergerkiller.bukkit.common.events.RegionChangeSource;
+
 /**
  * Temporarily holds chunk coordinates that have changed. Then periodically
  * notifies the changed chunks to the downstream tracker.
@@ -14,6 +16,7 @@ import org.bukkit.World;
  * on this class instance before calling addBlock/addChunk to avoid corruption.
  */
 class RegionChangeTrackerHandlerChunkDebouncer {
+    private final RegionChangeSource source;
     private final World world;
     private final RegionChangeTrackerHandlerOps ops;
     private final AtomicInteger ticksOfNoChanges = new AtomicInteger();
@@ -22,7 +25,8 @@ class RegionChangeTrackerHandlerChunkDebouncer {
     private Set<RegionBlockChangeChunkCoordinate> values = new HashSet<>();
     private RegionBlockChangeChunkCoordinate lookupCoord = new RegionBlockChangeChunkCoordinate(0, 0);
 
-    public RegionChangeTrackerHandlerChunkDebouncer(World world, RegionChangeTrackerHandlerOps ops) {
+    public RegionChangeTrackerHandlerChunkDebouncer(RegionChangeSource source, World world, RegionChangeTrackerHandlerOps ops) {
+        this.source = source;
         this.world = world;
         this.ops = ops;
     }
@@ -80,7 +84,7 @@ class RegionChangeTrackerHandlerChunkDebouncer {
         if (!values.isEmpty()) {
             Set<RegionBlockChangeChunkCoordinate> tmp = values;
             values = new HashSet<>();
-            ops.notifyChanges(world, tmp);
+            ops.notifyChanges(source, world, tmp);
         }
     }
 }

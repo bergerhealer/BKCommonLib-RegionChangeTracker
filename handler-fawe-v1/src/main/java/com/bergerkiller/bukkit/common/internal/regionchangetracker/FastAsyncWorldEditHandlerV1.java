@@ -3,6 +3,7 @@ package com.bergerkiller.bukkit.common.internal.regionchangetracker;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
+import com.bergerkiller.bukkit.common.events.RegionChangeSource;
 import com.boydti.fawe.beta.IBatchProcessor;
 import com.boydti.fawe.beta.IChunk;
 import com.boydti.fawe.beta.IChunkGet;
@@ -67,7 +68,7 @@ final class FastAsyncWorldEditHandlerV1 implements RegionChangeTrackerHandler {
         public void onEditSession(EditSessionEvent event) {
             if (event.getStage() == EditSession.Stage.BEFORE_CHANGE) {
                 final org.bukkit.World world = BukkitAdapter.adapt(event.getWorld());
-                final RegionChangeTrackerHandlerChunkDebouncer debouncer = new RegionChangeTrackerHandlerChunkDebouncer(world, ops);
+                final RegionChangeTrackerHandlerChunkDebouncer debouncer = new RegionChangeTrackerHandlerChunkDebouncer(RegionChangeSource.FASTASYNCWORLDEDIT, world, ops);
                 event.getExtent().addProcessor(new IBatchProcessor() {
                     @Override
                     public Extent construct(Extent extent) {
