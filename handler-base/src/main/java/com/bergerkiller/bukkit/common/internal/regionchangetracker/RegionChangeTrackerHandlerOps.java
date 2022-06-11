@@ -1,5 +1,6 @@
 package com.bergerkiller.bukkit.common.internal.regionchangetracker;
 
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Collection;
@@ -26,9 +27,9 @@ public interface RegionChangeTrackerHandlerOps {
      * enabling will yield true.
      *
      * @param pluginName
-     * @return True if the plugin is enabled, or provided
+     * @return Found plugin, null if not found or enabled
      */
-    boolean isPluginEnabledOrProvided(String pluginName);
+    Plugin findPluginEnabledOrProvided(String pluginName);
 
     /**
      * Notifies changes have occurred inside one or more chunks

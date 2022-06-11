@@ -24,7 +24,7 @@ final class FastAsyncWorldEditHandlerV2 implements RegionChangeTrackerHandler {
     @Override
     public boolean isSupported(RegionChangeTrackerHandlerOps ops) {
         // This plugin must exist and be enabled
-        if (!ops.isPluginEnabledOrProvided("FastAsyncWorldEdit")) {
+        if (ops.findPluginEnabledOrProvided("FastAsyncWorldEdit") == null) {
             return false;
         }
 
@@ -46,13 +46,13 @@ final class FastAsyncWorldEditHandlerV2 implements RegionChangeTrackerHandler {
 
     @Override
     public HandlerInstance<?> enable(RegionChangeTrackerHandlerOps ops) {
-        return new FAWEV1HandlerInstance(this, ops);
+        return new FAWEV2HandlerInstance(this, ops);
     }
 
-    private static final class FAWEV1HandlerInstance extends HandlerInstance<FastAsyncWorldEditHandlerV2> {
+    private static final class FAWEV2HandlerInstance extends HandlerInstance<FastAsyncWorldEditHandlerV2> {
         private final EventBus eventBus;
 
-        public FAWEV1HandlerInstance(FastAsyncWorldEditHandlerV2 handler, RegionChangeTrackerHandlerOps ops) {
+        public FAWEV2HandlerInstance(FastAsyncWorldEditHandlerV2 handler, RegionChangeTrackerHandlerOps ops) {
             super(handler, ops);
             eventBus = WorldEdit.getInstance().getEventBus();
             eventBus.register(this);
@@ -67,6 +67,7 @@ final class FastAsyncWorldEditHandlerV2 implements RegionChangeTrackerHandler {
         public void onEditSession(EditSessionEvent event) {
             if (event.getStage() == EditSession.Stage.BEFORE_CHANGE) {
                 final org.bukkit.World world = BukkitAdapter.adapt(event.getWorld());
+
                 final RegionChangeTrackerHandlerChunkDebouncer debouncer = new RegionChangeTrackerHandlerChunkDebouncer(world, ops);
                 event.getExtent().addProcessor(new IBatchProcessor() {
                     @Override

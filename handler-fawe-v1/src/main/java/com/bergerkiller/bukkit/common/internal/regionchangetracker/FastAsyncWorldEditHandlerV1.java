@@ -24,7 +24,7 @@ final class FastAsyncWorldEditHandlerV1 implements RegionChangeTrackerHandler {
     @Override
     public boolean isSupported(RegionChangeTrackerHandlerOps ops) {
         // This plugin must exist and be enabled
-        if (!ops.isPluginEnabledOrProvided("FastAsyncWorldEdit")) {
+        if (ops.findPluginEnabledOrProvided("FastAsyncWorldEdit") == null) {
             return false;
         }
 

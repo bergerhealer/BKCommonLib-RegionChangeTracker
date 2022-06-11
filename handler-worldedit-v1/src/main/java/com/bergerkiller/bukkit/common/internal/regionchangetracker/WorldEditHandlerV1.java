@@ -2,6 +2,8 @@ package com.bergerkiller.bukkit.common.internal.regionchangetracker;
 
 import java.lang.reflect.Method;
 
+import org.bukkit.plugin.Plugin;
+
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.WorldEdit;
@@ -18,7 +20,8 @@ final class WorldEditHandlerV1 implements RegionChangeTrackerHandler {
     @Override
     public boolean isSupported(RegionChangeTrackerHandlerOps ops) {
         // A plugin must exist on the server that is, or provides, WorldEdit
-        if (!ops.isPluginEnabledOrProvided("WorldEdit")) {
+        Plugin plugin = ops.findPluginEnabledOrProvided("WorldEdit");
+        if (plugin == null) {
             return false;
         }
 
@@ -28,6 +31,11 @@ final class WorldEditHandlerV1 implements RegionChangeTrackerHandler {
             Class.forName("com.sk89q.worldedit.Vector");
             Class.forName("com.sk89q.worldedit.blocks.BaseBlock");
         } catch (ClassNotFoundException ex) {
+            return false;
+        }
+
+        // Should not be used on FAWE
+        if (plugin.getName().equalsIgnoreCase("FastAsyncWorldEdit")) {
             return false;
         }
 

@@ -92,12 +92,12 @@ public abstract class RegionChangeTracker implements RegionChangeTrackerHandlerO
     }
 
     @Override
-    public boolean isPluginEnabledOrProvided(String pluginName) {
+    public Plugin findPluginEnabledOrProvided(String pluginName) {
         // The plugin itself
         {
             Plugin p = Bukkit.getPluginManager().getPlugin(pluginName);
             if (p != null && p != pluginCurrentlyDisabling && p.isEnabled()) {
-                return true;
+                return p;
             }
         }
 
@@ -107,7 +107,7 @@ public abstract class RegionChangeTracker implements RegionChangeTrackerHandlerO
                 if (p != pluginCurrentlyDisabling && p.isEnabled()) {
                     for (String provide : p.getDescription().getProvides()) {
                         if (pluginName.equalsIgnoreCase(provide)) {
-                            return true;
+                            return p;
                         }
                     }
                 }
@@ -115,7 +115,7 @@ public abstract class RegionChangeTracker implements RegionChangeTrackerHandlerO
         } catch (Throwable t) {
             /* Ignore - probably missing provides api */
         }
-        return false;
+        return null;
     }
 
     private class Handler {
