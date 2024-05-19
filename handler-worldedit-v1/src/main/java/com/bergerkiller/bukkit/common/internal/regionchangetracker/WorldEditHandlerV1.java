@@ -28,9 +28,10 @@ final class WorldEditHandlerV1 implements RegionChangeTrackerHandler {
 
         // These classes must exist
         try {
-            Class.forName("com.sk89q.worldedit.extent.AbstractDelegateExtent");
-            Class.forName("com.sk89q.worldedit.Vector");
-            Class.forName("com.sk89q.worldedit.blocks.BaseBlock");
+            ClassLoader loader = plugin.getClass().getClassLoader();
+            Class.forName("com.sk89q.worldedit.extent.AbstractDelegateExtent", false, loader);
+            Class.forName("com.sk89q.worldedit.Vector", false, loader);
+            Class.forName("com.sk89q.worldedit.blocks.BaseBlock", false, loader);
         } catch (ClassNotFoundException ex) {
             return false;
         }

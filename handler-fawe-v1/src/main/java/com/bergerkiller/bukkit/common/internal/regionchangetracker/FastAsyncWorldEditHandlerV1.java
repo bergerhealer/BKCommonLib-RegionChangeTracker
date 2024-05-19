@@ -15,6 +15,7 @@ import com.sk89q.worldedit.event.extent.EditSessionEvent;
 import com.sk89q.worldedit.extent.Extent;
 import com.sk89q.worldedit.util.eventbus.EventBus;
 import com.sk89q.worldedit.util.eventbus.Subscribe;
+import org.bukkit.plugin.Plugin;
 
 /**
  * Uses the experimental (beta) API of FastAsyncWorldEdit to
@@ -25,14 +26,16 @@ final class FastAsyncWorldEditHandlerV1 implements RegionChangeTrackerHandler {
     @Override
     public boolean isSupported(RegionChangeTrackerHandlerOps ops) {
         // This plugin must exist and be enabled
-        if (ops.findPluginEnabledOrProvided("FastAsyncWorldEdit") == null) {
+        Plugin plugin = ops.findPluginEnabledOrProvided("FastAsyncWorldEdit");
+        if (plugin == null) {
             return false;
         }
 
         // These classes must exist
         try {
-            Class.forName("com.boydti.fawe.beta.IBatchProcessor");
-            Class.forName("com.boydti.fawe.beta.IChunk");
+            ClassLoader loader = plugin.getClass().getClassLoader();
+            Class.forName("com.boydti.fawe.beta.IBatchProcessor", false, loader);
+            Class.forName("com.boydti.fawe.beta.IChunk", false, loader);
         } catch (ClassNotFoundException ex) {
             return false;
         }

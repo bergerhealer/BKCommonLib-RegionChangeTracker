@@ -13,10 +13,18 @@
 
     <repositories>
         <!-- For FAWE -->
+        <!-- This repo is gone :( -->
+        <!--
         <repository>
             <id>IntellectualSites</id>
             <url>https://mvn.intellectualsites.com/content/repositories/releases/</url>
         </repository>
+        -->
+        <repository>
+            <id>MG-Dev Jenkins CI Maven Repository</id>
+            <url>https://ci.mg-dev.eu/plugin/repository/everything</url>
+        </repository>
+
         <!-- FAWE requires PaperLib -->
         <repository>
             <id>PaperMC</id>
