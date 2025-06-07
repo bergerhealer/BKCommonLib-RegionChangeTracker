@@ -32,7 +32,7 @@ final class WorldEditHandlerV1 implements RegionChangeTrackerHandler {
             Class.forName("com.sk89q.worldedit.extent.AbstractDelegateExtent", false, loader);
             Class.forName("com.sk89q.worldedit.Vector", false, loader);
             Class.forName("com.sk89q.worldedit.blocks.BaseBlock", false, loader);
-        } catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException | IllegalStateException ex) {
             return false;
         }
 

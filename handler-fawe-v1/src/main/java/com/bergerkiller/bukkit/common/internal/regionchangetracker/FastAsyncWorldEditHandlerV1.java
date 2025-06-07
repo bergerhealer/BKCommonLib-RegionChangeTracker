@@ -36,7 +36,7 @@ final class FastAsyncWorldEditHandlerV1 implements RegionChangeTrackerHandler {
             ClassLoader loader = plugin.getClass().getClassLoader();
             Class.forName("com.boydti.fawe.beta.IBatchProcessor", false, loader);
             Class.forName("com.boydti.fawe.beta.IChunk", false, loader);
-        } catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException | IllegalStateException ex) {
             return false;
         }
 
